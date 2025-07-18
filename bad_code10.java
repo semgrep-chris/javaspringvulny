@@ -21,7 +21,16 @@ public class JwtLog4jController {
         Enumeration<String> headers = request.getHeaderNames();
         while (headers.hasMoreElements()) {
             String it = headers.nextElement();
-            logger.info("{} = {}", it, request.getHeader(it));
+            // Import Jsoup library for sanitization at the top if not already imported:
+            // import org.jsoup.Jsoup;
+
+            ...
+
+            while (headers.hasMoreElements()) {
+                String it = headers.nextElement();
+                // Sanitize header name and value before logging to prevent log injection
+                logger.info("{} = {}", org.jsoup.Jsoup.clean(it, ""), org.jsoup.Jsoup.clean(request.getHeader(it), ""));
+            }
         }
         logger.info("Hitting Log4J route");
         logger.info(text);
